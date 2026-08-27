@@ -419,6 +419,11 @@ def openapi_document(base: str, version: str, max_body_bytes: int, max_wait: flo
                                 "maximum": store.MAX_LIMIT,
                                 "default": 50,
                             },
+                            "description": (
+                                "Below 1, above the maximum, or not a plain non-negative "
+                                "integer: falls back to the default rather than a 400 — "
+                                "clamped, not refused, the same as `wait` below."
+                            ),
                         },
                         {
                             "in": "query",
@@ -444,6 +449,11 @@ def openapi_document(base: str, version: str, max_body_bytes: int, max_wait: flo
                             "in": "query",
                             "name": "format",
                             "schema": {"type": "string", "enum": ["json"]},
+                            "description": (
+                                "Anything other than `json` renders the text form rather "
+                                "than a 400 — `format` selects a rendering, it does not "
+                                "gate the request."
+                            ),
                         },
                         {
                             "in": "query",
