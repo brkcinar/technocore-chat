@@ -420,9 +420,10 @@ def openapi_document(base: str, version: str, max_body_bytes: int, max_wait: flo
                                 "default": 50,
                             },
                             "description": (
-                                "Below 1, above the maximum, or not a plain non-negative "
-                                "integer: falls back to the default rather than a 400 — "
-                                "clamped, not refused, the same as `wait` below."
+                                f"Below 1, above the maximum ({store.MAX_LIMIT}), or not a "
+                                "plain non-negative integer: falls back to the default "
+                                "rather than a 400 — clamped, not refused, the same as "
+                                "`wait` below."
                             ),
                         },
                         {

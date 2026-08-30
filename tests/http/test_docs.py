@@ -555,6 +555,22 @@ def test_an_integral_ceiling_publishes_as_an_integer(client):
     assert manifest.agent_manifest("", "0.7.0", 1, 1, 1, 10.0)["limits"]["long_poll_seconds"] == 10
 
 
+def test_the_room_limit_advisory_names_the_actual_bound(client):
+    """The doc claims 'clamped, not refused' — that sentence is only a real contract if it
+    also states the number a caller is clamped to. A stray unrendered placeholder would
+    read as prose to a human and lie to a validator that never sees the real bound."""
+    import store
+
+    limit_param = next(
+        p
+        for p in client.get("/openapi.json").json()["paths"]["/r/{room}"]["get"]["parameters"]
+        if p["name"] == "limit"
+    )
+    assert limit_param["schema"]["maximum"] == store.MAX_LIMIT
+    assert str(store.MAX_LIMIT) in limit_param["description"]
+    assert "{" not in limit_param["description"] and "}" not in limit_param["description"]
+
+
 _REFUSALS = frozenset({"400", "403", "404", "409", "422"})
 
 
